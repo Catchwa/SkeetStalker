@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+              http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5"
+         xmlns="http://java.sun.com/xml/ns/javaee">
+
+  <!-- Servlets -->
+  <servlet>
+    <servlet-name>lastOnlineServiceImpl</servlet-name>
+    <servlet-class>org.catchwa.skeetstalker.server.LastOnlineServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>answerTheseServiceImpl</servlet-name>
+    <servlet-class>org.catchwa.skeetstalker.server.AnswerTheseServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>findUserServiceImpl</servlet-name>
+    <servlet-class>org.catchwa.skeetstalker.server.FindUserServiceImpl</servlet-class>
+  </servlet>
+  
+    <servlet>
+    <servlet-name>stackSitesServiceImpl</servlet-name>
+    <servlet-class>org.catchwa.skeetstalker.server.StackSitesServiceImpl</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>lastOnlineServiceImpl</servlet-name>
+    <url-pattern>/skeetstalker/lastOnline</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>answerTheseServiceImpl</servlet-name>
+    <url-pattern>/skeetstalker/answerThese</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>findUserServiceImpl</servlet-name>
+    <url-pattern>/skeetstalker/findUser</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>stackSitesServiceImpl</servlet-name>
+    <url-pattern>/skeetstalker/getSites</url-pattern>
+  </servlet-mapping>
+
+  <!-- Default page to serve -->
+  <welcome-file-list>
+    <welcome-file>SkeetStalker.html</welcome-file>
+  </welcome-file-list>
+
+</web-app>
