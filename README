@@ -1,0 +1,9 @@
+SkeetStalker is a GWT Web Application that is designed to be deployed to Google AppEngine.
+Suggested build environment is the latest version of Eclipse and the Google Eclipse Plugin.
+
+The 'production' version of this application can be found deployed at http://skeetstalker.appspot.com
+
+The link on StackApps is http://stackapps.com/questions/653/skeetstalker-get-to-unanswered-questions-before-jon-skeet
+If you like this application, please vote it up!
+
+Suggestions/bugs can be entered on GitHub or on the StackApps page.
