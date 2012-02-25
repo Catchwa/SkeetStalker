@@ -1,5 +1,5 @@
 /*  
- * Copyright 2010 Andrew Brock
+ * Copyright 2010-2012 Andrew Brock
  * 
  * This file is part of SkeetStalker.
  *
@@ -30,7 +30,7 @@ public class Constants
   public static final long MILLISECONDS_IN_A_SECOND = 1000l;
   
   public static final int CLIENT_TABLE_ROW_LIMIT = 15;
-  public static final int CLIENT_QUESTIONS_TABLE_REFRESH_INTERVAL = (int) (20 * MILLISECONDS_IN_A_MINUTE);
+  public static final int CLIENT_QUESTIONS_TABLE_REFRESH_INTERVAL = (int) (5 * MILLISECONDS_IN_A_MINUTE);
   public static final int CLIENT_LAST_ONLINE_REFRESH_INTERVAL = (int)(5 * MILLISECONDS_IN_A_MINUTE);
   public static final String API_KEY = "EtpbakgUwEm-J18FYlsC2g";
   public static final int DEFAULT_ID = 22656;
