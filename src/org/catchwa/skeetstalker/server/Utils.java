@@ -1,5 +1,5 @@
 /*  
- * Copyright 2010 Andrew Brock
+ * Copyright 2010-2012 Andrew Brock
  * 
  * This file is part of SkeetStalker.
  *
@@ -21,9 +21,6 @@ package org.catchwa.skeetstalker.server;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
 
 import net.sf.stackwrap4j.StackWrapper;
 import net.sf.stackwrap4j.entities.Tag;
@@ -48,62 +45,7 @@ public class Utils
       return null;
     }
     
-    Stalkee u = new Stalkee(user.getId(), site, user.getDisplayName(), tagsListToStringList(tags), System.currentTimeMillis());
-    PersistenceManager pm = PMF.get().getPersistenceManager();
-    try
-    {
-      pm.makePersistent(u);
-    }
-    finally
-    {
-      pm.close();
-    }
-    return u;
-  }
-  
-  @SuppressWarnings("unchecked")
-  public static Stalkee getCachedUser(long id, String site)
-  {
-    PersistenceManager pm = PMF.get().getPersistenceManager();
-    String targetKey = id+"@"+site;
-    Stalkee u = null;
-    
-    Query query = pm.newQuery(Stalkee.class);
-    query.setFilter("key == targetKey");
-    query.declareParameters("String targetKey");
-    try
-    {
-      List<Stalkee> results = (List<Stalkee>) query.execute(targetKey);
-      if(results.size() != 0)
-      {
-        u = results.get(0);
-      }
-    }
-    finally
-    {
-      query.closeAll();
-      pm.close();
-    }
-    return u;
-  }
-  
-  public static void removeUser(long id, String site)
-  {
-    PersistenceManager pm = PMF.get().getPersistenceManager();
-    String targetKey = id+"@"+site;
-    
-    Query query = pm.newQuery(Stalkee.class);
-    query.setFilter("key == targetKey");
-    query.declareParameters("String targetKey");
-    try
-    {
-      query.deletePersistentAll(targetKey);
-    }
-    finally
-    {
-      query.closeAll();
-      pm.close();
-    }
+    return new Stalkee(user.getId(), site, user.getDisplayName(), tagsListToStringList(tags), System.currentTimeMillis());
   }
   
   private static List<String> tagsListToStringList(List<Tag> tags)

@@ -1,5 +1,5 @@
 /*  
- * Copyright 2010 Andrew Brock
+ * Copyright 2010-2012 Andrew Brock
  * 
  * This file is part of SkeetStalker.
  *
@@ -32,15 +32,12 @@ public class LastOnlineServiceImpl extends RemoteServiceServlet implements LastO
 {
   public String getLastOnline(int id, String site)
   {  
-    Stalkee u = Utils.getCachedUser(id, site);
+    Stalkee u = u = Utils.createUser(id, site);
     if(u == null)
     {
-      u = Utils.createUser(id, site);
-      if(u == null)
-      {
-        return "User does not exist";
-      }
+      return "User does not exist";
     }
+    
     StackWrapper sw = new StackWrapper(site, Constants.API_KEY);
     try
     {

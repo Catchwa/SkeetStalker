@@ -1,5 +1,5 @@
 /*  
- * Copyright 2010 Andrew Brock
+ * Copyright 2010-2012 Andrew Brock
  * 
  * This file is part of SkeetStalker.
  *
@@ -23,9 +23,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
-
 import net.sf.stackwrap4j.StackWrapper;
 import net.sf.stackwrap4j.entities.Answer;
 import net.sf.stackwrap4j.entities.Question;
@@ -41,83 +38,31 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class AnswerTheseServiceImpl extends RemoteServiceServlet implements AnswerTheseService
 {  
-  @SuppressWarnings("unchecked")
   public String[] getQuestions(int id, String site)
   {    
-    Stalkee u = Utils.getCachedUser(id, site);
-    
-    if(u != null && System.currentTimeMillis() - u.getLastUpdated() > org.catchwa.skeetstalker.shared.Constants.SERVER_USER_TAG_REFRESH_INTERVAL)
-    {
-      Utils.removeUser(id, site);
-      u = null;
-    }
-
-    PersistenceManager pm = PMF.get().getPersistenceManager();
-    if(u == null)
-    {
-      u = Utils.createUser(id, site);
+    Stalkee u = Utils.createUser(id, site);
       if(u == null)
       {
         return new String[]{"User does not exist  "};
       }
-    }
     
     ArrayList<String> candidateQuestions = new ArrayList<String>();
     List<String> userTags = u.getTags();
     List<UnansweredQuestion> results;
     
-    Query query = pm.newQuery();
-    query = pm.newQuery(UnansweredQuestion.class);
-    query.setFilter("site == targetSite");
-    query.setOrdering("created desc");
-    query.declareParameters("String targetSite");
-    
-    Query innerQuery = null;
-    try
-    {
-      results = (List<UnansweredQuestion>) query.execute(site);
-      if(results.size() > 0 && (System.currentTimeMillis() - results.get(0).getCreated()) < org.catchwa.skeetstalker.shared.Constants.SERVER_UNANSWERED_QUESTION_REFRESH_INTERVAL)
-      {
-        // Use cached version
-      }
-      else
-      { 
-        try
-        {
-          UnansweredQuery uq = new UnansweredQuery();
-          uq.setComments(false);
-          uq.setPageSize(50);
-          StackWrapper sw = new StackWrapper(site, Constants.API_KEY);
-          List<Question> q = sw.listQuestions(uq);
-          results = convertQuestions(q, site);
-          innerQuery = pm.newQuery(UnansweredQuestion.class);
-          innerQuery.setFilter("site == targetSite");
-          innerQuery.declareParameters("String targetSite");
-          innerQuery.deletePersistentAll(site);
-          for(int i = 0; i < results.size(); i++)
-          {
-            pm.makePersistent(results.get(i));
-          }
-        } catch(Exception e)
-        {
-          e.printStackTrace();
-          pm.close();
-          return new String[0];
-        }
-        finally
-        {
-          if(innerQuery != null)
-          {
-            innerQuery.closeAll();
-          }
-        }
-      }
+    UnansweredQuery uq = new UnansweredQuery();
+    uq.setComments(false);
+    uq.setPageSize(50);
+    StackWrapper sw = new StackWrapper(site, Constants.API_KEY);
+    List<Question> q = null;
+    try {
+        q = sw.listQuestions(uq);
+    } catch (Exception e) {
+        e.printStackTrace();
+        return new String[0];
     }
-    finally
-    {
-      query.closeAll();
-    }
-    
+    results = convertQuestions(q, site);
+           
     for(int i = 0; i < results.size(); i++)
     {
       boolean candidate = false;
