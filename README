@@ -1,4 +1,4 @@
-Note: This repository is here for historical purposes only, please refer to the StakApps page at http://stackapps.com/questions/653/skeetstalker-get-to-unanswered-questions-before-jon-skeet
+Note: This repository is here for historical purposes only, please refer to the StackApps page at http://stackapps.com/questions/653/skeetstalker-get-to-unanswered-questions-before-jon-skeet
 
 SkeetStalker is a GWT Web Application that is designed to be deployed to Google AppEngine.
 Suggested build environment is the latest version of Eclipse and the Google Eclipse Plugin.
